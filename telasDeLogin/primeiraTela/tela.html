@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tela de login</title>
+        <style>
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: linear-gradient(45deg, cyan, yellow);
+        }
+
+        .telaDeLogin {
+            background-color: rgba(0, 0, 0, 0.9);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 80px;
+            color: #fff;
+            border-radius: 15px;
+        }
+
+        input {
+            padding: 15px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: dodgerblue;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            
+        }
+        #btn2{
+            background-color: dodgerblue;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            margin-top:  1rem;
+            
+        }
+
+        button:hover , #btn2:hover {
+            background-color: deepskyblue;
+            cursor: pointer;
+        }
+
+        #notifica {
+            background-color: blue;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1%;
+            height: 40px;
+            color: #fff;
+            border-radius: 15px;
+            display: none;
+
+
+        }
+        </style>
+    </head>
+    <body>
+    
+        <div class="telaDeLogin">
+            <h1>Login</h1>
+            <form action="">
+                <input type="text" placeholder="Nome" id="nome">
+                <br>
+                <br>
+                <input type="password" placeholder="Senha" id="senha">
+                <br>
+                <br>
+                <button type="button" onclick="Entrar()">ENTRAR</button>
+                <button type="button" onclick="Cadastrar()" id="btn2">Cadastrar</button>
+            </form>
+        </div>
+        <div id="notifica"></div>
+        <!-- -----------------------SCRIPT --------------------------->
+        <script>
+        var nome = document.getElementById("nome");
+        var senha = document.getElementById("senha");
+        var notifica = document.getElementById("notifica");
+        var link = document.getElementById("link");
+        const localStoragekey ="login"
+
+        function Entrar(){
+            if (nome.value == "" && senha.value == "") {
+                notifica.innerHTML = "Todos os campos precisam ser preenchidos !"
+                notifica.style.display = "block"
+
+
+
+            } else if (nome.value == "" || senha.value == "") {
+                notifica.innerHTML = "Algum campo não foi preenchido"
+                notifica.style.display = "block"
+                
+
+
+            }else {
+                let values = JSON.parse(localStorage.getItem(localStoragekey) || "[]");
+                    if(values.find(x=> x.login == nome.value) && values.find(x=> x.senha == senha.value)){
+                        window.open("../listaDeTarefa/html/index.html");
+                    }else{
+                        notifica.innerHTML = "Usuário Não existe ! <br>Cadastre Para Entrar"
+                        notifica.style.display="block"
+                    }
+                }
+                setTimeout(() => {
+                notifica.style.display = "none"
+            }, 3000);
+
+                
+       }
+
+            
+
+            
+            // setTimeout(() => {
+            //     notifica.style.display = "none"
+            // }, 2000);
+
+             
+            
+
+        
+        function Cadastrar(){
+            if (nome.value == "" && senha.value == "") {
+                notifica.innerHTML = "Todos os campos precisam ser preenchidos !"
+                notifica.style.display = "block"
+
+
+
+            } else if (nome.value == "" || senha.value == "") {
+                notifica.innerHTML = "Algum campo não foi preenchido"
+                notifica.style.display = "block"
+              
+
+
+
+            }else{
+            let values = JSON.parse(localStorage.getItem(localStoragekey) || "[]");
+                values.push({
+                    login: nome.value,
+                    senha: senha.value
+                });
+                localStorage.setItem(localStoragekey,JSON.stringify(values))
+                notifica.innerHTML = "Usuário e Senha Cadastradas <br> Faça seu Login"
+                notifica.style.display ="block"
+            }
+            setTimeout(() => {
+                notifica.style.display = "none"
+            }, 2000);
+            
+        };
+        </script>
+    </body>
+</html>
